@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/all.min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="py-5 bg-info text-center text-white">
+      <h1 class="display-5">Employee Management System</h1>
+    </header>
+    <section class="my-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-3 text-center text-md-end">
+            <button
+              data-bs-target="#exampleModal"
+              data-bs-toggle="modal"
+              class="btn btn-success text-nowrap"
+            >
+              <i class="fa-solid fa-user fa-fw"></i>Create new Employee
+            </button>
+          </div>
+
+          <div class="col-md-4 offset-md-5">
+            <div class="input-group">
+              <input
+                class="form-control w-50"
+                disabled
+                placeholder="Enter keyword here"
+                type="text"
+              />
+              <select class="form-select" name="select" id="select">
+                <option disabled selected hidden value="">Filter</option>
+                <option value="">Name</option>
+                <option value="">Age</option>
+                <option value="">City</option>
+                <option value="">Email</option>
+                <option value="">phone</option>
+              </select>
+              <!-- <button class="btn btn-primary">Search</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-responsive">
+      <table class="table table-bordered text-center align-middle">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Picture</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th class="text-nowrap">Created At</th>
+            <th>update</th>
+            <th>delete</th>
+          </tr>
+        </thead>
+        <tbody id="bodyData"></tbody>
+      </table>
+    </section>
+
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+      data-bs-backdrop="false"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Employee Manager</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row gy-4">
+                <div class="col-md-4 position-relative">
+                  <label for="image"><i class="fa-solid fa-pen"></i></label>
+                  <input id="image" type="file" hidden />
+                  <figure>
+                    <img id="imgFig" src="https://placehold.co/350x350" class="w-100 img-thumbnail" alt="" />
+                    <figcaption class="text-center my-2">Insert Your Image</figcaption>
+                  </figure>
+                </div>
+                <div class="col-md-8">
+                  <div class="input">
+                    <label for="name">Name: </label>
+                    <input id="name" type="text" class="form-control" />
+                  </div>
+                  <div class="input">
+                    <label for="age">Age: </label>
+                    <input id="age" type="text" class="form-control" />
+                  </div>
+                  <div class="input">
+                    <label for="city">City: </label>
+                    <input id="city" type="text" class="form-control" />
+                  </div>
+                  <div class="input">
+                    <label for="email">Email: </label>
+                    <input id="email" type="text" class="form-control" />
+                  </div>
+                  <div class="input">
+                    <label for="phone">Phone: </label>
+                    <input id="phone" type="text" class="form-control" />
+                  </div>
+                  <div class="input">
+                    <label class="text-nowrap" for="date">start At: </label>
+                    <input id="date" type="date" class="form-control" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="addEmployee" type="button" class="btn btn-primary">Add Employee</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

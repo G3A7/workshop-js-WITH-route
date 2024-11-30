@@ -12,7 +12,9 @@ const myModalEl = document.getElementById("exampleModal");
 const allInputs = document.querySelectorAll(".input input");
 const inputSearch = document.querySelector("#input-search");
 const select = document.querySelector("select");
+const updateEmployee = document.querySelector("#UpdateEmployee");
 // console.log(name, age, city, email, phone, image, date);
+let idForUpdate = -1;
 const regexObj = {
   name: /^[a-zA-Z ]{3,20}$/,
   age: /^[1-9][0-9]$/,
@@ -100,6 +102,7 @@ function addEmployeeData() {
   ) {
     console.log(image.files[0]?.name);
     const dataObj = {
+      id: Date.now(),
       name: name.value,
       age: age.value,
       city: city.value,
@@ -131,7 +134,7 @@ function displayEmployee(list = arrayDataEmployee) {
     <td>${e.email}</td>
     <td>${e.phone}</td>
     <td>${e.date}</td>
-    <td><button class='btn btn-danger'>Update</button></td>
+    <td><button onclick='getTaskToUpdate(${e.id})' class='btn btn-danger'>Update</button></td>
     <td><button class='btn btn-warning'>Delete</button></td>
     </tr>
     `;
@@ -168,6 +171,62 @@ function clearForms() {
   email.classList.remove("is-valid");
   date.classList.remove("is-valid");
   city.classList.remove("is-valid");
-  image.files[0].name = null;
+  image.value = "";
   imageFig.src = "https://placehold.co/350x350";
 }
+
+function getTaskToUpdate(id) {
+  updateEmployee.classList.replace("d-none", "d-block");
+  addEmployee.classList.replace("d-block", "d-none");
+  const employee = arrayDataEmployee.find((e) => {
+    return e.id == id;
+  });
+  idForUpdate = id;
+  name.value = employee.name;
+  age.value = employee.age;
+  city.value = employee.city;
+  email.value = employee.email;
+  phone.value = employee.phone;
+  date.value = employee.date;
+  // image = null;
+  imageFig.src = employee.image;
+  myModal.show();
+}
+
+updateEmployee.addEventListener("click", (e) => {
+  if (
+    validationInputs(name) &&
+    validationInputs(age) &&
+    validationInputs(city) &&
+    validationInputs(email) &&
+    validationInputs(phone) &&
+    validationInputs(date) &&
+    validationInputs(imageFig)
+  ) {
+    // console.log(image.files[0]?.name);
+    const dataObj = {
+      id: Date.now(),
+      name: name.value,
+      age: age.value,
+      city: city.value,
+      email: email.value,
+      phone: phone.value,
+      date: date.value,
+      image: image.files[0]?.name ? `./img/${image.files[0]?.name}` : imageFig.getAttribute("src"),
+    };
+    // arrayDataEmployee.push(dataObj);
+    const employee = arrayDataEmployee.find((e) => {
+      return e.id == idForUpdate;
+    });
+    arrayDataEmployee = arrayDataEmployee.map((e) => {
+      if (e.id == idForUpdate) {
+        return { employee, ...dataObj };
+      }
+      return e;
+    });
+
+    displayEmployee();
+    clearForms();
+    myModal.hide();
+  }
+});

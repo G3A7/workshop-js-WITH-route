@@ -32,14 +32,15 @@
                 disabled
                 placeholder="Enter keyword here"
                 type="text"
+                id="input-search"
               />
               <select class="form-select" name="select" id="select">
                 <option disabled selected hidden value="">Filter</option>
-                <option value="">Name</option>
-                <option value="">Age</option>
-                <option value="">City</option>
-                <option value="">Email</option>
-                <option value="">phone</option>
+                <option value="name">Name</option>
+                <option value="age">Age</option>
+                <option value="city">City</option>
+                <option value="email">Email</option>
+                <option value="phone">phone</option>
               </select>
               <!-- <button class="btn btn-primary">Search</button> -->
             </div>
@@ -94,7 +95,12 @@
                   <label for="image"><i class="fa-solid fa-pen"></i></label>
                   <input id="image" type="file" hidden />
                   <figure>
-                    <img id="imgFig" src="https://placehold.co/350x350" class="w-100 img-thumbnail" alt="" />
+                    <img
+                      id="imgFig"
+                      src="https://placehold.co/350x350"
+                      class="w-100 img-thumbnail"
+                      alt=""
+                    />
                     <figcaption class="text-center my-2">Insert Your Image</figcaption>
                   </figure>
                 </div>
@@ -127,7 +133,7 @@
               </div>
             </div>
           </div>
-       
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button id="addEmployee" type="button" class="btn btn-primary">Add Employee</button>

@@ -10,6 +10,8 @@ const addEmployee = document.getElementById("addEmployee");
 const myModal = new bootstrap.Modal("#exampleModal");
 const myModalEl = document.getElementById("exampleModal");
 const allInputs = document.querySelectorAll(".input input");
+const inputSearch = document.querySelector("#input-search");
+const select = document.querySelector("select");
 // console.log(name, age, city, email, phone, image, date);
 const regexObj = {
   name: /^[a-zA-Z ]{3,20}$/,
@@ -40,19 +42,22 @@ allInputs.forEach((e) => {
 
 function validationInputs(e) {
   if (e.id == "imgFig") {
+    console.log(e.getAttribute("src"));
     if (e.getAttribute("src") == "https://placehold.co/350x350") {
+      console.log(e.src);
       imageFig.style.cssText = `
        border:2px solid red;
       `;
       return false;
     } else if (regexObj[e.id].test(e.getAttribute("src"))) {
-      // console.log(e.src);
       console.log(e.src);
       imageFig.style.cssText = `
       border:none;
      `;
       return true;
     } else {
+      console.log(e.src);
+
       console.log(e.getAttribute("src"));
       imageFig.style.cssText = `
       border:2px solid red;
@@ -75,10 +80,10 @@ addEmployee.addEventListener("click", addEmployeeData);
 myModalEl.addEventListener("hidden.bs.modal", clearForms);
 
 let changeImg = () => {
+  console.log(image.files[0]?.name);
   imageFig.src = image.files[0]?.name
     ? `./img/${image.files[0]?.name}`
     : "https://placehold.co/350x350";
-  // console.log("Edhm")
   imageFig.style.border = "none";
 };
 image.addEventListener("change", changeImg);
@@ -93,6 +98,7 @@ function addEmployeeData() {
     validationInputs(date) &&
     validationInputs(imageFig)
   ) {
+    console.log(image.files[0]?.name);
     const dataObj = {
       name: name.value,
       age: age.value,
@@ -107,13 +113,14 @@ function addEmployeeData() {
     arrayDataEmployee.push(dataObj);
     displayEmployee();
     myModal.hide();
-    console.log(dataObj);
+    clearForms();
+    // console.log(dataObj);
   }
 }
 
-function displayEmployee() {
+function displayEmployee(list = arrayDataEmployee) {
   let box = "";
-  arrayDataEmployee.forEach((e, idx) => {
+  list.forEach((e, idx) => {
     box += `
     <tr>
     <td>${idx + 1}</td>
@@ -131,6 +138,22 @@ function displayEmployee() {
   });
   document.getElementById("bodyData").innerHTML = box;
 }
+let keySearch = "name";
+select.addEventListener("change", (e) => {
+  if (e.target.value) {
+    inputSearch.removeAttribute("disabled");
+    keySearch = e.target.value;
+  }
+});
+inputSearch.addEventListener("input", (i) => {
+  let arraySearch = [];
+  arrayDataEmployee.forEach((e) => {
+    if (e[keySearch].includes(i.target.value)) {
+      arraySearch.push(e);
+    }
+  });
+  displayEmployee(arraySearch);
+});
 
 function clearForms() {
   name.value = "";
@@ -145,6 +168,6 @@ function clearForms() {
   email.classList.remove("is-valid");
   date.classList.remove("is-valid");
   city.classList.remove("is-valid");
-  // image.src = "https://placehold.co/350x350";
+  image.files[0].name = null;
   imageFig.src = "https://placehold.co/350x350";
 }

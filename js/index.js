@@ -18,7 +18,7 @@ let idForUpdate = -1;
 const regexObj = {
   name: /^[a-zA-Z ]{3,20}$/,
   age: /^[1-9][0-9]$/,
-  city: /^[a-zA-Z]{3,20}$/,
+  city: /^[a-zA-Z ]{3,20}$/,
   phone: /^01[1502][0-9]{8}$/,
   email: /^[A-Za-z]{2,8}@[a-zA-Z]{2,8}\.(com|org)$/,
   imgFig: /^.{1,}\.(png|jpg)$/,

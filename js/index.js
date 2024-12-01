@@ -77,7 +77,11 @@ function validationInputs(e) {
     return false;
   }
 }
-let arrayDataEmployee = [];
+let arrayDataEmployee = localStorage.getItem("employees")
+  ? JSON.parse(localStorage.getItem("employees"))
+  : [];
+displayEmployee();
+// console.log(arrayDataEmployee)
 addEmployee.addEventListener("click", addEmployeeData);
 myModalEl.addEventListener("hidden.bs.modal", clearForms);
 
@@ -90,7 +94,6 @@ let changeImg = () => {
 };
 image.addEventListener("change", changeImg);
 function addEmployeeData() {
-  // console.log(date.value);
   if (
     validationInputs(name) &&
     validationInputs(age) &&
@@ -114,6 +117,7 @@ function addEmployeeData() {
         : "https://placehold.co/350x350",
     };
     arrayDataEmployee.push(dataObj);
+    localStorage.setItem("employees", JSON.stringify(arrayDataEmployee));
     displayEmployee();
     myModal.hide();
     clearForms();
@@ -123,35 +127,52 @@ function addEmployeeData() {
 
 function displayEmployee(list = arrayDataEmployee) {
   let box = "";
-  list.forEach((e, idx) => {
-    box += `
-    <tr>
-    <td>${idx + 1}</td>
-    <td><img class='imggg img-thumbnail' src=${e.image} /></td>
-    <td>${e.name}</td>
-    <td>${e.age}</td>
-    <td>${e.city}</td>
-    <td>${e.email}</td>
-    <td>${e.phone}</td>
-    <td>${e.date}</td>
-    <td><button onclick='getTaskToUpdate(${e.id})' class='btn btn-danger'>Update</button></td>
-    <td><button class='btn btn-warning'>Delete</button></td>
-    </tr>
-    `;
-  });
-  document.getElementById("bodyData").innerHTML = box;
+  document.getElementById("bodyData").innerHTML = "";
+  if (list.length != 0) {
+    document.getElementById("h2-noData").classList.replace("d-block", "d-none");
+
+    list.forEach((e, idx) => {
+      box += `
+      <tr>
+      <td>${idx + 1}</td>
+      <td><img class='imggg img-thumbnail' src=${e.image} /></td>
+      <td>${e.nameHighLight ? e.nameHighLight : e.name}</td>
+      <td>${e.ageHighLight ? e.ageHighLight : e.age}</td>
+      <td>${e.city}</td>
+      <td>${e.email}</td>
+      <td>${e.phone}</td>
+      <td>${e.date}</td>
+      <td><button onclick='getTaskToUpdate(${e.id})' class='btn btn-danger'>Update</button></td>
+      <td><button onclick='deleteEmployee(${e.id})' class='btn btn-warning'>Delete</button></td>
+      </tr>
+      `;
+    });
+    document.getElementById("bodyData").innerHTML = box;
+  } else {
+    document.getElementById("h2-noData").classList.replace("d-none", "d-block");
+  }
 }
 let keySearch = "name";
 select.addEventListener("change", (e) => {
-  if (e.target.value) {
+  if (arrayDataEmployee.length == 0) {
+    inputSearch.setAttribute("disabled", true);
+  } else if (e.target.value) {
     inputSearch.removeAttribute("disabled");
     keySearch = e.target.value;
   }
 });
 inputSearch.addEventListener("input", (i) => {
   let arraySearch = [];
+  const regex = new RegExp(i.target.value, "ig");
   arrayDataEmployee.forEach((e) => {
-    if (e[keySearch].includes(i.target.value)) {
+    // regex.test(e[keySearch]);
+    // console.log();
+    // e[keySearch].toLowerCase().includes(i.target.value.toLowerCase())
+    if (regex.test(e[keySearch])) {
+      e[keySearch + "HighLight"] = e[keySearch].replaceAll(
+        regex,
+        `<span class='text-danger'>${i.target.value.toUpperCase()}</span>`
+      );
       arraySearch.push(e);
     }
   });
@@ -224,9 +245,19 @@ updateEmployee.addEventListener("click", (e) => {
       }
       return e;
     });
-
+    localStorage.setItem("employees", JSON.stringify(arrayDataEmployee));
+    updateEmployee.classList.replace("d-block", "d-none");
+    addEmployee.classList.replace("d-none", "d-block");
     displayEmployee();
     clearForms();
     myModal.hide();
   }
 });
+
+function deleteEmployee(id) {
+  arrayDataEmployee = arrayDataEmployee.filter((e) => {
+    return e.id != id;
+  });
+  localStorage.setItem("employees", JSON.stringify(arrayDataEmployee));
+  displayEmployee();
+}

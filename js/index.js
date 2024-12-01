@@ -138,9 +138,9 @@ function displayEmployee(list = arrayDataEmployee) {
       <td><img class='imggg img-thumbnail' src=${e.image} /></td>
       <td>${e.nameHighLight ? e.nameHighLight : e.name}</td>
       <td>${e.ageHighLight ? e.ageHighLight : e.age}</td>
-      <td>${e.city}</td>
-      <td>${e.email}</td>
-      <td>${e.phone}</td>
+      <td>${e.cityHighLight ? e.cityHighLight : e.city}</td>
+      <td>${e.emailHighLight ? e.emailHighLight : e.email}</td>
+      <td>${e.phoneHighLight ? e.phoneHighLight : e.phone}</td>
       <td>${e.date}</td>
       <td><button onclick='getTaskToUpdate(${e.id})' class='btn btn-danger'>Update</button></td>
       <td><button onclick='deleteEmployee(${e.id})' class='btn btn-warning'>Delete</button></td>
